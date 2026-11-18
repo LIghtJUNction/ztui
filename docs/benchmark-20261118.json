@@ -1,0 +1,99 @@
+{
+  "date": "2026-11-18",
+  "package": "ztui-core",
+  "library": "ztui",
+  "version": "0.1.0",
+  "rustc": "1.100.0 (0ef1bc386 2026-11-09)",
+  "architecture": "x86_64",
+  "os": "linux",
+  "opt_level": "z",
+  "iterations_per_round": 10000,
+  "rounds": 2,
+  "buffer": "caller-owned String reused for both paths",
+  "includes_terminal_io": false,
+  "concurrent_activity": "Other projects were building on this development machine.",
+  "command": "rustc --edition=2024 -C opt-level=z benches/diff.rs --extern ztui=libztui_opt.rlib -o diff; ./diff 10000",
+  "tests": {
+    "contracts_passed": 11,
+    "fixed_buffer_example": "passed"
+  },
+  "results": [
+    {
+      "scenario": "first",
+      "rows": 64,
+      "columns": 160,
+      "bytes": 12653,
+      "rows_written": 64,
+      "legacy_ns_per_frame": 3120.52,
+      "ztui_ns_per_frame": 3289.01,
+      "ztui_over_legacy": 1.054,
+      "byte_equivalent": true
+    },
+    {
+      "scenario": "unchanged",
+      "rows": 64,
+      "columns": 160,
+      "bytes": 0,
+      "rows_written": 0,
+      "legacy_ns_per_frame": 449.83,
+      "ztui_ns_per_frame": 520.12,
+      "ztui_over_legacy": 1.1563,
+      "byte_equivalent": true
+    },
+    {
+      "scenario": "one_row",
+      "rows": 64,
+      "columns": 160,
+      "bytes": 220,
+      "rows_written": 1,
+      "legacy_ns_per_frame": 753.81,
+      "ztui_ns_per_frame": 642.4,
+      "ztui_over_legacy": 0.8522,
+      "byte_equivalent": true
+    },
+    {
+      "scenario": "all_rows",
+      "rows": 64,
+      "columns": 160,
+      "bytes": 12622,
+      "rows_written": 64,
+      "legacy_ns_per_frame": 3553.55,
+      "ztui_ns_per_frame": 3842.52,
+      "ztui_over_legacy": 1.0813,
+      "byte_equivalent": true
+    },
+    {
+      "scenario": "resize",
+      "rows": 64,
+      "columns": 180,
+      "bytes": 13902,
+      "rows_written": 64,
+      "legacy_ns_per_frame": 3649.31,
+      "ztui_ns_per_frame": 4044.52,
+      "ztui_over_legacy": 1.1083,
+      "byte_equivalent": true
+    },
+    {
+      "scenario": "cursor_only",
+      "rows": 64,
+      "columns": 160,
+      "bytes": 23,
+      "rows_written": 0,
+      "legacy_ns_per_frame": 1292.26,
+      "ztui_ns_per_frame": 629.15,
+      "ztui_over_legacy": 0.4869,
+      "byte_equivalent": true
+    },
+    {
+      "scenario": "mode_only",
+      "rows": 64,
+      "columns": 160,
+      "bytes": 28,
+      "rows_written": 0,
+      "legacy_ns_per_frame": 1535.95,
+      "ztui_ns_per_frame": 1321.99,
+      "ztui_over_legacy": 0.8607,
+      "byte_equivalent": true
+    }
+  ]
+}
