@@ -1,0 +1,426 @@
+{
+  "schema": "ssmcp.ztui.performance.evidence.v1",
+  "source_commit": "343163e0b5e8d6d43e6f854d49adbaa913c24c67",
+  "raw_report_sha256": "dea76fc32d373653d5bc8f77fb1213b3b9a581d48fb5b61cc2570e45bc01cf54",
+  "binary_sha256": "b7d6793e99447fc3c68b31f2947d1fe729d64e34c666326f8cc126729577a866",
+  "iterations_per_run": 200000,
+  "runs": [
+    {
+      "run": 1,
+      "exit_code": 0,
+      "started_unix": 1795008805.0954485,
+      "finished_unix": 1795008813.921652,
+      "loadavg_start": [
+        20.951171875,
+        12.17431640625,
+        8.900390625
+      ],
+      "loadavg_end": [
+        20.82421875,
+        12.43359375,
+        9.02001953125
+      ],
+      "child_peak_rss_kib_cumulative": 19408,
+      "header": {
+        "benchmark": "ztui-diff",
+        "version": "0.1.0",
+        "architecture": "x86_64",
+        "os": "linux",
+        "iterations": 200000,
+        "buffer": "caller-owned String reused for both paths",
+        "includes_terminal_io": false
+      },
+      "scenarios": [
+        {
+          "scenario": "first",
+          "rows": 64,
+          "columns": 160,
+          "bytes": 12653,
+          "rows_written": 64,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 2513.65,
+          "ztui_ns_per_frame": 3145.22,
+          "ztui_over_legacy": 1.2513
+        },
+        {
+          "scenario": "unchanged",
+          "rows": 64,
+          "columns": 160,
+          "bytes": 0,
+          "rows_written": 0,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 337.05,
+          "ztui_ns_per_frame": 367.69,
+          "ztui_over_legacy": 1.0909
+        },
+        {
+          "scenario": "one_row",
+          "rows": 64,
+          "columns": 160,
+          "bytes": 220,
+          "rows_written": 1,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 655.98,
+          "ztui_ns_per_frame": 557.57,
+          "ztui_over_legacy": 0.85
+        },
+        {
+          "scenario": "all_rows",
+          "rows": 64,
+          "columns": 160,
+          "bytes": 12622,
+          "rows_written": 64,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 2844.22,
+          "ztui_ns_per_frame": 2809.33,
+          "ztui_over_legacy": 0.9877
+        },
+        {
+          "scenario": "resize",
+          "rows": 64,
+          "columns": 180,
+          "bytes": 13902,
+          "rows_written": 64,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 2717.35,
+          "ztui_ns_per_frame": 3199.71,
+          "ztui_over_legacy": 1.1775
+        },
+        {
+          "scenario": "cursor_only",
+          "rows": 64,
+          "columns": 160,
+          "bytes": 23,
+          "rows_written": 0,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 1003.53,
+          "ztui_ns_per_frame": 545.85,
+          "ztui_over_legacy": 0.5439
+        },
+        {
+          "scenario": "mode_only",
+          "rows": 64,
+          "columns": 160,
+          "bytes": 28,
+          "rows_written": 0,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 865.39,
+          "ztui_ns_per_frame": 477.28,
+          "ztui_over_legacy": 0.5515
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "exit_code": 0,
+      "started_unix": 1795008813.9217796,
+      "finished_unix": 1795008823.734431,
+      "loadavg_start": [
+        20.82421875,
+        12.43359375,
+        9.02001953125
+      ],
+      "loadavg_end": [
+        19.84814453125,
+        12.501953125,
+        9.0791015625
+      ],
+      "child_peak_rss_kib_cumulative": 19408,
+      "header": {
+        "benchmark": "ztui-diff",
+        "version": "0.1.0",
+        "architecture": "x86_64",
+        "os": "linux",
+        "iterations": 200000,
+        "buffer": "caller-owned String reused for both paths",
+        "includes_terminal_io": false
+      },
+      "scenarios": [
+        {
+          "scenario": "first",
+          "rows": 64,
+          "columns": 160,
+          "bytes": 12653,
+          "rows_written": 64,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 2535.22,
+          "ztui_ns_per_frame": 2766.02,
+          "ztui_over_legacy": 1.091
+        },
+        {
+          "scenario": "unchanged",
+          "rows": 64,
+          "columns": 160,
+          "bytes": 0,
+          "rows_written": 0,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 450.55,
+          "ztui_ns_per_frame": 491.8,
+          "ztui_over_legacy": 1.0916
+        },
+        {
+          "scenario": "one_row",
+          "rows": 64,
+          "columns": 160,
+          "bytes": 220,
+          "rows_written": 1,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 902.61,
+          "ztui_ns_per_frame": 841.95,
+          "ztui_over_legacy": 0.9328
+        },
+        {
+          "scenario": "all_rows",
+          "rows": 64,
+          "columns": 160,
+          "bytes": 12622,
+          "rows_written": 64,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 4971.19,
+          "ztui_ns_per_frame": 2771.52,
+          "ztui_over_legacy": 0.5575
+        },
+        {
+          "scenario": "resize",
+          "rows": 64,
+          "columns": 180,
+          "bytes": 13902,
+          "rows_written": 64,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 2645.16,
+          "ztui_ns_per_frame": 2776.17,
+          "ztui_over_legacy": 1.0495
+        },
+        {
+          "scenario": "cursor_only",
+          "rows": 64,
+          "columns": 160,
+          "bytes": 23,
+          "rows_written": 0,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 924.33,
+          "ztui_ns_per_frame": 499.67,
+          "ztui_over_legacy": 0.5406
+        },
+        {
+          "scenario": "mode_only",
+          "rows": 64,
+          "columns": 160,
+          "bytes": 28,
+          "rows_written": 0,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 1259.52,
+          "ztui_ns_per_frame": 665.83,
+          "ztui_over_legacy": 0.5286
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "exit_code": 0,
+      "started_unix": 1795008823.7347555,
+      "finished_unix": 1795008832.966434,
+      "loadavg_start": [
+        19.84814453125,
+        12.501953125,
+        9.0791015625
+      ],
+      "loadavg_end": [
+        18.34619140625,
+        12.41943359375,
+        9.08935546875
+      ],
+      "child_peak_rss_kib_cumulative": 19408,
+      "header": {
+        "benchmark": "ztui-diff",
+        "version": "0.1.0",
+        "architecture": "x86_64",
+        "os": "linux",
+        "iterations": 200000,
+        "buffer": "caller-owned String reused for both paths",
+        "includes_terminal_io": false
+      },
+      "scenarios": [
+        {
+          "scenario": "first",
+          "rows": 64,
+          "columns": 160,
+          "bytes": 12653,
+          "rows_written": 64,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 2895.21,
+          "ztui_ns_per_frame": 2979.71,
+          "ztui_over_legacy": 1.0292
+        },
+        {
+          "scenario": "unchanged",
+          "rows": 64,
+          "columns": 160,
+          "bytes": 0,
+          "rows_written": 0,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 378.95,
+          "ztui_ns_per_frame": 400.88,
+          "ztui_over_legacy": 1.0579
+        },
+        {
+          "scenario": "one_row",
+          "rows": 64,
+          "columns": 160,
+          "bytes": 220,
+          "rows_written": 1,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 846.85,
+          "ztui_ns_per_frame": 765.47,
+          "ztui_over_legacy": 0.9039
+        },
+        {
+          "scenario": "all_rows",
+          "rows": 64,
+          "columns": 160,
+          "bytes": 12622,
+          "rows_written": 64,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 3159.15,
+          "ztui_ns_per_frame": 2768.87,
+          "ztui_over_legacy": 0.8765
+        },
+        {
+          "scenario": "resize",
+          "rows": 64,
+          "columns": 180,
+          "bytes": 13902,
+          "rows_written": 64,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 2613.49,
+          "ztui_ns_per_frame": 3366.62,
+          "ztui_over_legacy": 1.2882
+        },
+        {
+          "scenario": "cursor_only",
+          "rows": 64,
+          "columns": 160,
+          "bytes": 23,
+          "rows_written": 0,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 911.03,
+          "ztui_ns_per_frame": 726.73,
+          "ztui_over_legacy": 0.7977
+        },
+        {
+          "scenario": "mode_only",
+          "rows": 64,
+          "columns": 160,
+          "bytes": 28,
+          "rows_written": 0,
+          "byte_equivalent": true,
+          "legacy_ns_per_frame": 768.27,
+          "ztui_ns_per_frame": 466.85,
+          "ztui_over_legacy": 0.6077
+        }
+      ]
+    }
+  ],
+  "summary": [
+    {
+      "scenario": "first",
+      "ratios": [
+        1.2513,
+        1.091,
+        1.0292
+      ],
+      "median_ratio": 1.091,
+      "median_legacy_ns_per_frame": 2535.22,
+      "median_ztui_ns_per_frame": 2979.71,
+      "ratio_of_median_ns": 1.1753260072104197,
+      "all_byte_equivalent": true
+    },
+    {
+      "scenario": "unchanged",
+      "ratios": [
+        1.0909,
+        1.0916,
+        1.0579
+      ],
+      "median_ratio": 1.0909,
+      "median_legacy_ns_per_frame": 378.95,
+      "median_ztui_ns_per_frame": 400.88,
+      "ratio_of_median_ns": 1.057870431455337,
+      "all_byte_equivalent": true
+    },
+    {
+      "scenario": "one_row",
+      "ratios": [
+        0.85,
+        0.9328,
+        0.9039
+      ],
+      "median_ratio": 0.9039,
+      "median_legacy_ns_per_frame": 846.85,
+      "median_ztui_ns_per_frame": 765.47,
+      "ratio_of_median_ns": 0.9039026982346342,
+      "all_byte_equivalent": true
+    },
+    {
+      "scenario": "all_rows",
+      "ratios": [
+        0.9877,
+        0.5575,
+        0.8765
+      ],
+      "median_ratio": 0.8765,
+      "median_legacy_ns_per_frame": 3159.15,
+      "median_ztui_ns_per_frame": 2771.52,
+      "ratio_of_median_ns": 0.8772992735387684,
+      "all_byte_equivalent": true
+    },
+    {
+      "scenario": "resize",
+      "ratios": [
+        1.1775,
+        1.0495,
+        1.2882
+      ],
+      "median_ratio": 1.1775,
+      "median_legacy_ns_per_frame": 2645.16,
+      "median_ztui_ns_per_frame": 3199.71,
+      "ratio_of_median_ns": 1.2096470534863677,
+      "all_byte_equivalent": true
+    },
+    {
+      "scenario": "cursor_only",
+      "ratios": [
+        0.5439,
+        0.5406,
+        0.7977
+      ],
+      "median_ratio": 0.5439,
+      "median_legacy_ns_per_frame": 924.33,
+      "median_ztui_ns_per_frame": 545.85,
+      "ratio_of_median_ns": 0.5905358475869008,
+      "all_byte_equivalent": true
+    },
+    {
+      "scenario": "mode_only",
+      "ratios": [
+        0.5515,
+        0.5286,
+        0.6077
+      ],
+      "median_ratio": 0.5515,
+      "median_legacy_ns_per_frame": 865.39,
+      "median_ztui_ns_per_frame": 477.28,
+      "ratio_of_median_ns": 0.5515201238747848,
+      "all_byte_equivalent": true
+    }
+  ],
+  "scope": {
+    "architecture": "x86_64",
+    "os": "linux",
+    "caller_buffer": "reused String",
+    "includes_terminal_io": false,
+    "all_byte_equivalence_checks": 21,
+    "initial_50000_iteration_resize_ratio": 3.3873,
+    "claim": "Mixed performance; do not claim every scenario is faster or discard the initial resize regression as noise."
+  }
+}

@@ -5,7 +5,7 @@ edition = "2024"
 rust-version = "1.100"
 description = "Allocation-free text row, geometry, and ANSI frame-diff primitives for Project Z"
 license = "MIT"
-repository = "https://github.com/LIghtJUNction/ssmcp"
+repository = "https://github.com/LIghtJUNction/ztui"
 readme = "README.md"
 include = ["/Cargo.toml", "/README.md", "/LICENSE", "/src/**", "/docs/**", "/examples/**", "/benches/**", "/tests/**"]
 
