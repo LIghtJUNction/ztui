@@ -37,7 +37,7 @@ impl<'a> Row<'a> {
         Self { text, columns }
     }
 
-    /// The provider may use a full Unicode/terminal cell model outside ztui.
+    /// The provider may use a full Unicode/terminal cell model outside ztuio.
     pub fn measured(text: &'a str, provider: impl FnOnce(&str) -> usize) -> Self {
         Self::with_columns(text, provider(text))
     }

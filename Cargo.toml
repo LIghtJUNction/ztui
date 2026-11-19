@@ -1,16 +1,16 @@
 [package]
-name = "ztui-core"
+name = "ztuio"
 version = "0.1.0"
 edition = "2024"
 rust-version = "1.100"
 description = "Allocation-free text row, geometry, and ANSI frame-diff primitives for Project Z"
 license = "MIT"
-repository = "https://github.com/LIghtJUNction/ztui"
+repository = "https://github.com/LIghtJUNction/ztuio"
 readme = "README.md"
 include = ["/Cargo.toml", "/README.md", "/LICENSE", "/src/**", "/docs/**", "/examples/**", "/benches/**", "/tests/**"]
 
 [lib]
-name = "ztui"
+name = "ztuio"
 path = "src/lib.rs"
 
 [[bench]]

@@ -66,6 +66,45 @@ fn begin<W: fmt::Write + ?Sized>(output: &mut W, started: &mut bool) -> fmt::Res
     Ok(())
 }
 
+// Coordinates occupy at most five decimal digits. Fill the fixed ANSI
+// templates backwards so one write forwards each complete control sequence.
+#[inline]
+fn decimal(buffer: &mut [u8], mut value: u32) -> usize {
+    let mut start = buffer.len();
+    loop {
+        start -= 1;
+        buffer[start] = b'0' + (value % 10) as u8;
+        value /= 10;
+        if value == 0 {
+            return start;
+        }
+    }
+}
+
+fn write_row<W: fmt::Write + ?Sized>(output: &mut W, row: u16, line: &str) -> fmt::Result {
+    let mut command = *b"\x1b[00000;1H\x1b[0m\x1b[2K";
+    let digits = decimal(&mut command[..7], u32::from(row) + 1);
+    command[digits - 2] = 0x1b;
+    command[digits - 1] = b'[';
+    output.write_str(core::str::from_utf8(&command[digits - 2..]).unwrap())?;
+    output.write_str(line)
+}
+
+fn write_cursor<W: fmt::Write + ?Sized>(
+    output: &mut W,
+    position: Point,
+    visible: bool,
+) -> fmt::Result {
+    let mut command = *b"\x1b[0m\x1b[00000;00000H\x1b[?25h";
+    let column = decimal(&mut command[..17], u32::from(position.column) + 1);
+    command[column - 1] = b';';
+    let row = decimal(&mut command[..column - 1], u32::from(position.row) + 1);
+    let start = row - 6;
+    command[start..row].copy_from_slice(b"\x1b[0m\x1b[");
+    *command.last_mut().unwrap() = if visible { b'h' } else { b'l' };
+    output.write_str(core::str::from_utf8(&command[start..]).unwrap())
+}
+
 /// Emit only changed rows, then owned mode changes and the final cursor.
 ///
 /// An unchanged or empty frame writes zero bytes. The caller must pass the last
@@ -91,9 +130,14 @@ pub fn write_diff<W: fmt::Write + ?Sized, F: Frame>(
     let mut rows_written = 0;
     for row in 0..size.rows {
         let line = current.row(row);
-        if full_redraw || previous.is_none_or(|old| old.row(row) != line) {
+        if full_redraw
+            || previous.is_none_or(|old| {
+                let old_line = old.row(row);
+                !core::ptr::eq(old_line, line) && old_line != line
+            })
+        {
             begin(&mut output, &mut started)?;
-            write!(output, "\x1b[{};1H\x1b[0m\x1b[2K{line}", u32::from(row) + 1)?;
+            write_row(&mut output, row, line)?;
             rows_written += 1;
         }
     }
@@ -136,13 +180,7 @@ pub fn write_diff<W: fmt::Write + ?Sized, F: Frame>(
     }
     // Nonempty geometry was checked before emitting any bytes.
     let position = size.clamp(cursor.position).unwrap();
-    write!(
-        output,
-        "\x1b[0m\x1b[{};{}H\x1b[?25{}",
-        u32::from(position.row) + 1,
-        u32::from(position.column) + 1,
-        if cursor.visible { 'h' } else { 'l' },
-    )?;
+    write_cursor(&mut output, position, cursor.visible)?;
     Ok(DiffStats {
         rows_written,
         bytes_written: output.bytes,

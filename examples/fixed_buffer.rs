@@ -1,7 +1,7 @@
 //! A caller-owned fixed buffer; no terminal, allocator, or Unicode crate is needed
 //! by the library. This example uses std only to print the result.
 use core::fmt;
-use ztui::Row;
+use ztuio::Row;
 
 struct Buffer {
     bytes: [u8; 128],
@@ -23,7 +23,7 @@ fn main() {
         used: 0,
     };
     // A caller's terminal/Unicode provider established that these two glyphs use
-    // four display columns. ztui neither guesses this width nor slices UTF-8.
+    // four display columns. ztuio neither guesses this width nor slices UTF-8.
     Row::with_columns("界面", 4)
         .write_padded(&mut buffer, 12)
         .unwrap();

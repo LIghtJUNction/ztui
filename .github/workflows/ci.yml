@@ -1,0 +1,38 @@
+name: Verify ztuio
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Install Rust
+        run: rustup toolchain install 1.100.0 --profile minimal --component rustfmt
+      - name: Check formatting
+        run: cargo +1.100.0 fmt --all -- --check
+      - name: Test public contracts
+        run: cargo +1.100.0 test --locked
+      - name: Check examples and benchmarks
+        run: cargo +1.100.0 check --locked --all-targets
+
+  no-std:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - run: rustup toolchain install 1.100.0 --profile minimal --target x86_64-unknown-none
+      - name: Check without an operating system
+        run: cargo +1.100.0 check --locked --lib --target x86_64-unknown-none

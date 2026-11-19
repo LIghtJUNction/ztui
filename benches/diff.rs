@@ -4,7 +4,7 @@ use std::{
     hint::black_box,
     time::{Duration, Instant},
 };
-use ztui::{Cursor, Frame, Modes, Point, Size};
+use ztuio::{Cursor, Frame, Modes, Point, Size};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 struct Fixture {
@@ -115,7 +115,7 @@ fn legacy(out: &mut String, current: &Fixture, previous: Option<&Fixture>) {
 }
 
 fn modern(out: &mut String, current: &Fixture, previous: Option<&Fixture>) {
-    ztui::write_diff(out, current, previous).unwrap();
+    ztuio::write_diff(out, current, previous).unwrap();
 }
 
 type Renderer = fn(&mut String, &Fixture, Option<&Fixture>);
@@ -168,7 +168,7 @@ fn main() {
         ("mode_only", &mode, Some(&before)),
     ];
     println!(
-        "{{\"benchmark\":\"ztui-diff\",\"version\":\"{}\",\"architecture\":\"{}\",\"os\":\"{}\",\"iterations\":{},\"buffer\":\"caller-owned String reused for both paths\",\"includes_terminal_io\":false}}",
+        "{{\"benchmark\":\"ztuio-diff\",\"version\":\"{}\",\"architecture\":\"{}\",\"os\":\"{}\",\"iterations\":{},\"buffer\":\"caller-owned String reused for both paths\",\"includes_terminal_io\":false}}",
         env!("CARGO_PKG_VERSION"),
         std::env::consts::ARCH,
         std::env::consts::OS,
@@ -178,7 +178,7 @@ fn main() {
         let mut old = String::new();
         let mut new = String::new();
         legacy(&mut old, current, previous);
-        let stats = ztui::write_diff(&mut new, current, previous).unwrap();
+        let stats = ztuio::write_diff(&mut new, current, previous).unwrap();
         assert_eq!(old, new, "ANSI bytes differ for {name}");
         assert_eq!(stats.bytes_written, new.len());
         // Reverse the order in the second round to reduce warm-up/order bias.

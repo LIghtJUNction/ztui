@@ -50,3 +50,12 @@ SSMCP R14 在固定提交 `aa8b95d66655adfd4d97ac8191e2b935bcd57c44` 上完成 w
 | 导出未修改运行时、测试、示例与基准 | 固定 source/split tree 与文件哈希核对 | 文档和仓库地址有明确调整 |
 | 性能有快有慢 | 七场景三次运行的完整 JSON | 固定 fixture，非所有终端或完整应用 |
 | 既有 R14 验证通过 | 固定 SSMCP workspace 报告 | 不冒充导出后独立验证 |
+
+
+## Consolidated frame writer
+
+The frame writer and contract tests include the fixed ANSI control-sequence
+formatting and equal-row fast path from SSMCP commit 4e3132d60600dca5053af81cdefa6962c3058ac4.
+The public geometry, row and frame APIs remain unchanged; the package and
+Rust import name are `ztuio`. The contract suite compares emitted bytes at
+all decimal coordinate boundaries, including the full u16 row range.

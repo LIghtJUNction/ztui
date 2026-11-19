@@ -1,5 +1,5 @@
 use core::fmt;
-use ztui::{Cursor, Frame, Modes, Point, Rect, Row, RowError, Size, write_diff, write_spaces};
+use ztuio::{Cursor, Frame, Modes, Point, Rect, Row, RowError, Size, write_diff, write_spaces};
 
 #[derive(Clone)]
 struct Fixture {
@@ -131,8 +131,16 @@ fn unicode_and_sgr_rows_are_forwarded_without_hidden_width_guessing() {
     let line = "\x1b[38;2;20;40;60m中文界\x1b[0m  ";
     let frame = Fixture::new(&[line], 8);
     let mut out = String::new();
-    write_diff(&mut out, &frame, None).unwrap();
-    assert!(out.contains(line));
+    let stats = write_diff(&mut out, &frame, None).unwrap();
+    assert_eq!(
+        out,
+        format!(
+            "\x1b[?25l\x1b[1;1H\x1b[0m\x1b[2K{line}\
+             \x1b[?1l\x1b>\x1b[?1000l\x1b[?1006l\x1b[?2004l\
+             \x1b[0m\x1b[1;1H\x1b[?25l"
+        )
+    );
+    assert_eq!(stats.bytes_written, out.len());
     let mut calls = 0;
     let measured = Row::measured("中文界", |_| {
         calls += 1;
@@ -287,6 +295,114 @@ fn pane_splits_conserve_cells_and_never_overlap() {
             let (top, bottom) = rect.split_rows(wanted, 1);
             assert!(top.bottom() <= bottom.origin().row);
             assert_eq!(bottom.bottom(), rect.bottom());
+        }
+    }
+}
+
+#[test]
+fn equal_rows_in_distinct_allocations_emit_nothing() {
+    let before = Fixture::new(&["\x1b[31m中文 e\u{301}\x1b[0m", "same"], 16);
+    let after = before.clone();
+    assert_ne!(before.rows[0].as_ptr(), after.rows[0].as_ptr());
+    let mut out = String::from("existing output");
+    let stats = write_diff(&mut out, &after, Some(&before)).unwrap();
+    assert_eq!(stats, ztuio::DiffStats::default());
+    assert_eq!(out, "existing output");
+}
+
+#[test]
+fn all_coordinate_digit_boundaries_match_the_ansi_reference() {
+    use core::fmt::Write as _;
+
+    struct LargeFrame {
+        cursor: Cursor,
+    }
+    impl Frame for LargeFrame {
+        fn size(&self) -> Size {
+            Size {
+                rows: u16::MAX,
+                columns: u16::MAX,
+            }
+        }
+        fn row(&self, _: u16) -> &str {
+            ""
+        }
+        fn cursor(&self) -> Cursor {
+            self.cursor
+        }
+        fn modes(&self) -> Modes {
+            Modes::default()
+        }
+    }
+
+    let mut expected = String::from("\x1b[?25l");
+    for row in 1..=u16::MAX {
+        write!(expected, "\x1b[{row};1H\x1b[0m\x1b[2K").unwrap();
+    }
+    expected.push_str(
+        "\x1b[?1l\x1b>\x1b[?1000l\x1b[?1006l\x1b[?2004l\
+         \x1b[0m\x1b[65535;65535H\x1b[?25h",
+    );
+    let mut out = String::new();
+    let frame = LargeFrame {
+        cursor: Cursor {
+            position: Point {
+                row: u16::MAX,
+                column: u16::MAX,
+            },
+            visible: true,
+        },
+    };
+    let stats = write_diff(&mut out, &frame, None).unwrap();
+    assert!(
+        out == expected,
+        "coordinate bytes differ from the ANSI reference"
+    );
+    assert_eq!(stats.rows_written, u16::MAX);
+    assert_eq!(stats.bytes_written, expected.len());
+    assert!(stats.full_redraw);
+
+    let boundaries = [
+        0,
+        8,
+        9,
+        98,
+        99,
+        998,
+        999,
+        9998,
+        9999,
+        u16::MAX - 1,
+        u16::MAX,
+    ];
+    for row in boundaries {
+        for column in boundaries {
+            for visible in [false, true] {
+                let before = LargeFrame {
+                    cursor: Cursor {
+                        visible: !visible,
+                        ..Cursor::default()
+                    },
+                };
+                let after = LargeFrame {
+                    cursor: Cursor {
+                        position: Point { row, column },
+                        visible,
+                    },
+                };
+                out.clear();
+                let stats = write_diff(&mut out, &after, Some(&before)).unwrap();
+                let expected = format!(
+                    "\x1b[?25l\x1b[0m\x1b[{};{}H\x1b[?25{}",
+                    u32::from(row.min(u16::MAX - 1)) + 1,
+                    u32::from(column.min(u16::MAX - 1)) + 1,
+                    if visible { 'h' } else { 'l' },
+                );
+                assert_eq!(out, expected);
+                assert_eq!(stats.rows_written, 0);
+                assert_eq!(stats.bytes_written, expected.len());
+                assert!(!stats.full_redraw);
+            }
         }
     }
 }
